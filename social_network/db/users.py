@@ -1,3 +1,7 @@
+"""
+Method for manipulating users in the database
+"""
+
 from typing import Union, Optional, List
 from bson import ObjectId
 

@@ -34,3 +34,13 @@ def test_find_user_by_username():
     db_user = find_user_by_username(user.username)
     assert db_user is not None
     assert db_user == user
+
+def test_delete_user():
+    user = insert_user(User(**user_test))
+    response = delete_user(user.user_id)
+    assert response == True
+    assert len(list_users()) == 0
+
+def test_delete_non_existing_user():
+    response = delete_user("123456781234567812345678")
+    assert response == False
