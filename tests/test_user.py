@@ -1,7 +1,14 @@
+import pytest
+from pydantic import ValidationError
+
 from social_network.db.users import *
 from social_network.models import User
 
 user_test = {"username": "splash"}
+bad_users = [
+    {"username": "with spaces"},
+    {"username": "username_is_too_long_for_validation"}
+]
 
 
 def test_insert_user():
@@ -9,6 +16,12 @@ def test_insert_user():
     assert isinstance(user, User)
     assert hasattr(user, "user_id")
     assert user == User(**user_test)
+
+
+@pytest.mark.parametrize("user", bad_users)
+def test_bad_users(user):
+    with pytest.raises(ValidationError):
+        _ = insert_user(User(**user))
 
 
 def test_list_user():
